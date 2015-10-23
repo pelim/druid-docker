@@ -12,7 +12,7 @@ export druid_port=${druid_port:-$PORT} #Marathon sets $PORT to a random port num
 export DRUID_PROPERTIES_FILE=/opt/druid/config/_common/common.runtime.properties
 
 #put env vars in common.runtime.properties, they will be named like druid_x_y_z and we need to rename to druid.x.y.z
-for var in `env` #$var will contain something like: druid_host=192.168.59.103
+for var in `env` #$var will contain something like: druid_host=172.17.42.1
 do
   if [[ "$var" =~ ^druid_ ]]; then
     env_var=`echo "$var" | sed -r "s/(.*)=.*/\1/g"` #extract just the env var name out of $var

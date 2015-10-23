@@ -57,7 +57,7 @@ object Main extends App {
 
   val curator = CuratorFrameworkFactory
     .builder()
-    .connectString("192.168.59.103:2181") //TODO config
+    .connectString("172.17.42.1:2181") //TODO config
     .retryPolicy(new ExponentialBackoffRetry(1000, 20, 30000))
     .build();
   curator.start()

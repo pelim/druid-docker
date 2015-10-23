@@ -1,3 +1,3 @@
 #!/bin/bash
 
-psql -h 192.168.59.103 -d druid -U druid
+psql -h 172.17.42.1 -d druid -U druid

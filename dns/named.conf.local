@@ -1,4 +1,4 @@
-zone "dev.banno.com" {
+zone "docker-fa.gc.famobi.com" {
   type master;
-  file "/etc/bind/db.dev.banno.com";
+  file "/etc/bind/db.docker-fa.gc.famobi.com";
 };

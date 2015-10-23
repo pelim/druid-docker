@@ -41,9 +41,9 @@ druidbroker1:
     - "8082:8082"
   environment:
     DRUID_JAVA_OPTIONS: -Xmx512M
-    druid_host: 192.168.59.103
+    druid_host: 172.17.42.1
     druid_port: 8082
-    druid_zk_service_host: 192.168.59.103:2181
+    druid_zk_service_host: 172.17.42.1:2181
     druid_processing_buffer_sizeBytes: 52428800 #50 * 1024 * 1024
 
 druidbroker2:
@@ -54,9 +54,9 @@ druidbroker2:
     - "8182:8182"
   environment:
     DRUID_JAVA_OPTIONS: -Xmx512M
-    druid_host: 192.168.59.103
+    druid_host: 172.17.42.1
     druid_port: 8182
-    druid_zk_service_host: 192.168.59.103:2181
+    druid_zk_service_host: 172.17.42.1:2181
     druid_processing_buffer_sizeBytes: 52428800 #50 * 1024 * 1024
 
 druidcoordinator1:
@@ -68,11 +68,11 @@ druidcoordinator1:
     - "8081:8081"
   environment:
     DRUID_JAVA_OPTIONS: -Xmx512M
-    druid_host: 192.168.59.103
+    druid_host: 172.17.42.1
     druid_port: 8081
-    druid_zk_service_host: 192.168.59.103:2181
+    druid_zk_service_host: 172.17.42.1:2181
     druid_metadata_storage_type: postgresql
-    druid_metadata_storage_connector_connectURI: jdbc:postgresql://192.168.59.103:5432/druid
+    druid_metadata_storage_connector_connectURI: jdbc:postgresql://172.17.42.1:5432/druid
     druid_metadata_storage_connector_user: druid
     druid_metadata_storage_connector_password: diurd
     druid_coordinator_load_timeout: PT30S
@@ -87,11 +87,11 @@ druidcoordinator2:
     - "8181:8181"
   environment:
     DRUID_JAVA_OPTIONS: -Xmx512M
-    druid_host: 192.168.59.103
+    druid_host: 172.17.42.1
     druid_port: 8181
-    druid_zk_service_host: 192.168.59.103:2181
+    druid_zk_service_host: 172.17.42.1:2181
     druid_metadata_storage_type: postgresql
-    druid_metadata_storage_connector_connectURI: jdbc:postgresql://192.168.59.103:5432/druid
+    druid_metadata_storage_connector_connectURI: jdbc:postgresql://172.17.42.1:5432/druid
     druid_metadata_storage_connector_user: druid
     druid_metadata_storage_connector_password: diurd
     druid_coordinator_load_timeout: PT30S
@@ -106,9 +106,9 @@ druidhistorical1:
     - "8083:8083"
   environment:
     DRUID_JAVA_OPTIONS: -Xmx512M
-    druid_host: 192.168.59.103
+    druid_host: 172.17.42.1
     druid_port: 8083
-    druid_zk_service_host: 192.168.59.103:2181
+    druid_zk_service_host: 172.17.42.1:2181
     druid_segmentCache_locations: "[{\"path\":\"/var/tmp/druid/indexCache\",\"maxSize\":5000000000}]"
     druid_processing_buffer_sizeBytes: 52428800 #50 * 1024 * 1024
     druid_server_maxSize: 5000000000
@@ -124,9 +124,9 @@ druidhistorical2:
     - "8183:8183"
   environment:
     DRUID_JAVA_OPTIONS: -Xmx512M
-    druid_host: 192.168.59.103
+    druid_host: 172.17.42.1
     druid_port: 8183
-    druid_zk_service_host: 192.168.59.103:2181
+    druid_zk_service_host: 172.17.42.1:2181
     druid_segmentCache_locations: "[{\"path\":\"/var/tmp/druid/indexCache\",\"maxSize\":5000000000}]"
     druid_processing_buffer_sizeBytes: 52428800 #50 * 1024 * 1024
     druid_server_maxSize: 5000000000
@@ -155,11 +155,11 @@ druidoverlord1:
     - /Users:/Users #for local firehose in batch index tasks
   environment:
     DRUID_JAVA_OPTIONS: -Xmx512M
-    druid_host: 192.168.59.103
+    druid_host: 172.17.42.1
     druid_port: 8085
-    druid_zk_service_host: 192.168.59.103:2181
+    druid_zk_service_host: 172.17.42.1:2181
     druid_metadata_storage_type: postgresql
-    druid_metadata_storage_connector_connectURI: jdbc:postgresql://192.168.59.103:5432/druid
+    druid_metadata_storage_connector_connectURI: jdbc:postgresql://172.17.42.1:5432/druid
     druid_metadata_storage_connector_user: druid
     druid_metadata_storage_connector_password: diurd
     druid_indexer_runner_type: local
@@ -202,11 +202,11 @@ dns:
 mesosmaster:
   image: registry.banno-internal.com/mesos-master:latest
   dns: 172.17.42.1
-  hostname: mesosmaster.dev.banno.com
+  hostname: mesosmaster.docker-fa.gc.famobi.com
   ports:
     - "5050:5050"
   environment:
-    MESOS_ZK: zk://192.168.59.103:2181/mesos
+    MESOS_ZK: zk://172.17.42.1:2181/mesos
     MESOS_LOG_DIR: /var/log
     MESOS_WORK_DIR: /mesos
     MESOS_QUORUM: 1
@@ -218,17 +218,17 @@ mesosmaster:
 mesosslave1:
   image: registry.banno-internal.com/mesos-slave:latest
   dns: 172.17.42.1
-  hostname: mesosslave1.dev.banno.com
+  hostname: mesosslave1.docker-fa.gc.famobi.com
   ports:
     - "5151:5151"
   environment:
     MESOS_CONTAINERIZERS: docker
     MESOS_DOCKER_STOP_TIMEOUT: 30secs
     MESOS_LOG_DIR: /var/log
-    MESOS_MASTER: zk://192.168.59.103:2181/mesos
+    MESOS_MASTER: zk://172.17.42.1:2181/mesos
     MESOS_WORK_DIR: /mesos
     MESOS_PORT: "5151"
-    MESOS_HOSTNAME: mesosslave1.dev.banno.com
+    MESOS_HOSTNAME: mesosslave1.docker-fa.gc.famobi.com
     DOCKER_CERT_PATH:
     DOCKER_HOST:
     DOCKER_TLS_VERIFY:
@@ -241,17 +241,17 @@ mesosslave1:
 mesosslave2:
   image: registry.banno-internal.com/mesos-slave:latest
   dns: 172.17.42.1
-  hostname: mesosslave2.dev.banno.com
+  hostname: mesosslave2.docker-fa.gc.famobi.com
   ports:
     - "5152:5152"
   environment:
     MESOS_CONTAINERIZERS: docker
     MESOS_DOCKER_STOP_TIMEOUT: 30secs
     MESOS_LOG_DIR: /var/log
-    MESOS_MASTER: zk://192.168.59.103:2181/mesos
+    MESOS_MASTER: zk://172.17.42.1:2181/mesos
     MESOS_WORK_DIR: /mesos
     MESOS_PORT: "5152"
-    MESOS_HOSTNAME: mesosslave2.dev.banno.com
+    MESOS_HOSTNAME: mesosslave2.docker-fa.gc.famobi.com
     DOCKER_CERT_PATH:
     DOCKER_HOST:
     DOCKER_TLS_VERIFY:
@@ -266,7 +266,7 @@ marathon:
   dns: 172.17.42.1
   ports:
     - "8080:8080"
-  command: --master zk://192.168.59.103:2181/mesos --zk zk://192.168.59.103:2181/marathon
+  command: --master zk://172.17.42.1:2181/mesos --zk zk://172.17.42.1:2181/marathon
   links:
     - zookeeper
     - mesosmaster

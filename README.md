@@ -19,11 +19,11 @@ sbt run
 
 All Druid nodes (broker, coordinator, historical and overlord) should start up pretty quickly. Check the logs of any node using `fig logs [nodeType]`, e.g. `fig logs druidcoordinator1` or `fig logs druidoverlord1`.
 
-Once the coordinator is up, its web console should be accesible at http://192.168.59.103:8081.
+Once the coordinator is up, its web console should be accesible at http://172.17.42.1:8081.
 
-Once the overlord is up, its web console should be accessible at http://192.168.59.103:8085/console.html.
+Once the overlord is up, its web console should be accessible at http://172.17.42.1:8085/console.html.
 
-Send queries to the broker at http://192.168.59.103:8082/druid/v2/. Some example queries are provided, e.g.:
+Send queries to the broker at http://172.17.42.1:8082/druid/v2/. Some example queries are provided, e.g.:
 
 ```
 cd query
@@ -37,11 +37,11 @@ To shut everything down: `fig kill && fig rm --force`
 ```
 ./build.sh
 fig up -d druid
-http://hadoop.dev.banno.com:50070 and wait for safe mode to be turned off, takes about 30 secs
+http://hadoop.docker-fa.gc.famobi.com:50070 and wait for safe mode to be turned off, takes about 30 secs
 execute stuff in druid-pageviews/hdfs-commands to get data file into hdfs
 ./ingest.sh task5-hadoop.json <========== exec this in druid-pageviews to start hadoop index task
-http://192.168.59.103:8085/console.html to make sure task is running, and check its logs
-http://hadoop.dev.banno.com:8088 to check druid mapreduce job in yarn ui
+http://172.17.42.1:8085/console.html to make sure task is running, and check its logs
+http://hadoop.docker-fa.gc.famobi.com:8088 to check druid mapreduce job in yarn ui
 ```
 
 ## Design Notes
@@ -204,4 +204,4 @@ Definitely need to test failover:
 Special considerations when running on Mesos locally in boot2docker:
   - With more than one Mesos slave in boot2docker, and more than one of a druid node type, have to use random ports, otherwise e.g. broker on each mesos slave will try to bind to port 8082, all but one will fail
   - Random ports makes querying brokers more painful, as you have to look up the host & port to use
-  - Need to add something like "127.0.0.1 mesosslave1.dev.banno.com mesosslave2.dev.banno.com" to boot2docker's /etc/hosts, so that overlord & peons can communicate
+  - Need to add something like "127.0.0.1 mesosslave1.docker-fa.gc.famobi.com mesosslave2.docker-fa.gc.famobi.com" to boot2docker's /etc/hosts, so that overlord & peons can communicate
